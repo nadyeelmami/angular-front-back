@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { TalentsMapRoutingModule } from './talents-map-routing.module';
+import { TalentsRoutingModule } from './talents-routing.module';
 
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    TalentsMapRoutingModule
+    TalentsRoutingModule
   ]
 })
-export class TalentsMapModule { }
+export class TalentsModule { }

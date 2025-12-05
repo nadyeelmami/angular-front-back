@@ -9,7 +9,7 @@ import { AuthService } from '../../../features/auth/services/auth.service';
   imports: [CommonModule, RouterLink],
   template: `
     <header class="top-nav">
-      <div class="logo"><span class="blue-dot"></span> Talents</div>
+      <div class="logo"><span class="blue-dot"></span> Talents Map</div>
       <nav class="nav-links">
         <a routerLink="/dashboard" routerLinkActive="active" class="nav-link">Dashboard</a>
         <a routerLink="/search" routerLinkActive="active" class="nav-link">Search</a>
