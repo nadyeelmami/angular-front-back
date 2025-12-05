@@ -23,12 +23,12 @@ jobs:
      
       - name: Install dependencies
         run: npm install
-        working-directory: pixasong
+        working-directory: angular-front-back
 
       # 4. Build Angular production
       - name: Build Angular
         run: npm run build -- --configuration production
-        working-directory: pixasong
+        working-directory: angular-front-back
 
      
       - name: Deploy to cPanel via FTP
