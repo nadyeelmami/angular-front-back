@@ -10,27 +10,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout repo
+      # Checkout repo
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Setup Node.js
+      # Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '22'
 
-     
+      # Install dependencies
       - name: Install dependencies
         run: npm install
-        working-directory: angular-front-back
 
-      # 4. Build Angular production
+      # Build Angular production
       - name: Build Angular
         run: npm run build -- --configuration production
-        
 
-     
+      # Deploy to cPanel via FTP
       - name: Deploy to cPanel via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
@@ -39,3 +37,4 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: dist/carte/
           server-dir: /public_html/Talents_Map/
+          protocol: ftp
