@@ -38,4 +38,4 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: pixasong/dist/pixasong/
-          server-dir: /public_html/angular_app/
+          server-dir: /public_html/Talents_Map/
