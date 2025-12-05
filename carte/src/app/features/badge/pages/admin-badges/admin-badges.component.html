@@ -1,0 +1,124 @@
+<div class="page-container">
+  <div class="content-center">
+    <div class="main-panel">
+    <app-navigation></app-navigation>
+
+    <div class="content-wrapper">
+      <div class="header-section">
+        <span class="sub-title">ADMIN PANEL</span>
+        <h1>Badge Management<span class="blue-dot">.</span></h1>
+        <p class="description">Verify and manage talent badges</p>
+      </div>
+
+      <!-- Stats Overview -->
+      <div class="stats-overview">
+        <div class="stat-card">
+          <div class="stat-icon verified">
+            <i class="fa fa-check-circle"></i>
+          </div>
+          <div class="stat-content">
+            <h3>{{ verifiedCount }}</h3>
+            <p>Verified Talents</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon pending">
+            <i class="fa fa-clock"></i>
+          </div>
+          <div class="stat-content">
+            <h3>{{ pendingCount }}</h3>
+            <p>Pending Verification</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon total">
+            <i class="fa fa-users"></i>
+          </div>
+          <div class="stat-content">
+            <h3>{{ totalCount }}</h3>
+            <p>Total Talents</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filter Bar -->
+      <div class="filter-bar">
+        <div class="filter-group">
+          <label>Filter by Status</label>
+          <select [(ngModel)]="filterStatus" (change)="applyFilter()" class="filter-select">
+            <option value="all">All Talents</option>
+            <option value="verified">Verified Only</option>
+            <option value="pending">Pending Only</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Search</label>
+          <div class="search-wrapper">
+            <i class="fa fa-search"></i>
+            <input type="text" 
+                   [(ngModel)]="searchQuery" 
+                   (input)="applyFilter()"
+                   placeholder="Search by name..."
+                   class="search-input">
+          </div>
+        </div>
+      </div>
+
+      <!-- Talents List -->
+      <div class="talents-table">
+        <div class="table-header">
+          <h3>{{ filteredTalents.length }} Talent{{ filteredTalents.length !== 1 ? 's' : '' }}</h3>
+        </div>
+
+        <div class="talent-row" *ngFor="let talent of filteredTalents">
+          <div class="talent-info-section">
+            <div class="talent-avatar">
+              {{ talent.firstName.charAt(0) }}{{ talent.lastName.charAt(0) }}
+            </div>
+            <div class="talent-details">
+              <h4>{{ talent.firstName }} {{ talent.lastName }}</h4>
+              <p class="talent-title">{{ talent.title }}</p>
+              <p class="talent-email">{{ talent.email }}</p>
+            </div>
+          </div>
+
+          <div class="talent-meta">
+            <div class="meta-item">
+              <i class="fa fa-star"></i>
+              <span>{{ talent.skills.length }} skills</span>
+            </div>
+            <div class="meta-item">
+              <i class="fa fa-project-diagram"></i>
+              <span>{{ talent.projects.length }} projects</span>
+            </div>
+            <div *ngIf="talent.location" class="meta-item">
+              <i class="fa fa-map-marker-alt"></i>
+              <span>{{ talent.location }}</span>
+            </div>
+          </div>
+
+          <div class="talent-actions">
+            <span class="status-indicator" [class.verified]="talent.isVerified" [class.pending]="!talent.isVerified">
+              <i [class]="talent.isVerified ? 'fa fa-check-circle' : 'fa fa-clock'"></i>
+              {{ talent.isVerified ? 'Verified' : 'Pending' }}
+            </span>
+            <button 
+              (click)="toggleVerification(talent.id)" 
+              [class]="talent.isVerified ? 'btn btn-warning' : 'btn btn-success'">
+              <i [class]="talent.isVerified ? 'fa fa-times-circle' : 'fa fa-check-circle'"></i>
+              {{ talent.isVerified ? 'Revoke' : 'Verify' }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Empty State -->
+        <div *ngIf="filteredTalents.length === 0" class="empty-state">
+          <i class="fa fa-users empty-icon"></i>
+          <h3>No talents found</h3>
+          <p>Try adjusting your filters</p>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>

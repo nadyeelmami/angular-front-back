@@ -1,0 +1,382 @@
+:host {
+  --bg-dark: #1e2126;
+  --bg-input: #2b303b;
+  --text-white: #ffffff;
+  --text-grey: #6c757d;
+  --accent-blue: #6142b9;
+  --border-radius: 12px;
+  
+  display: block;
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  width: 100vw;
+  background-color: var(--bg-dark);
+  color: var(--text-white);
+  overflow-y: auto;
+}
+
+.page-container {
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  padding: 20px;
+}
+
+.content-center {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.main-panel {
+  width: 100%;
+  padding: 30px 40px;
+}
+
+.content-wrapper {
+  flex: 1;
+}
+
+.header-section {
+  margin-bottom: 40px;
+}
+
+.sub-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-grey);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-size: 2.8rem;
+  margin: 10px 0;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 1.6rem;
+  margin: 0 0 20px 0;
+}
+
+h3 {
+  font-size: 1.3rem;
+  margin: 0;
+}
+
+.blue-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: var(--accent-blue);
+  border-radius: 50%;
+}
+
+.description {
+  color: var(--text-grey);
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+/* Action Bar */
+.action-bar {
+  margin-bottom: 30px;
+}
+
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-primary {
+  background-color: var(--accent-blue);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #4e34a0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(97, 66, 185, 0.4);
+}
+
+.btn-primary:disabled {
+  background-color: #383e4a;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-secondary {
+  background-color: #383e4a;
+  color: var(--text-white);
+}
+
+.btn-secondary:hover {
+  background-color: #4b5563;
+}
+
+.btn-sm {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+}
+
+/* Form */
+.collab-form {
+  background-color: var(--bg-input);
+  padding: 35px;
+  border-radius: var(--border-radius);
+  border: 1px solid #383e4a;
+  margin-bottom: 35px;
+}
+
+.form-group {
+  margin-bottom: 25px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-white);
+  margin-bottom: 10px;
+}
+
+.input-field input,
+.textarea-field,
+.filter-select,
+.search-input {
+  width: 100%;
+  background-color: var(--bg-dark);
+  border: 1px solid #383e4a;
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: var(--text-white);
+  font-size: 0.95rem;
+  font-family: 'DM Sans', sans-serif;
+  transition: border-color 0.3s;
+}
+
+.input-field input:focus,
+.textarea-field:focus,
+.filter-select:focus,
+.search-input:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+}
+
+.textarea-field {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.form-actions {
+  display: flex;
+  gap: 15px;
+}
+
+/* Filter Bar */
+.filter-bar {
+  background-color: var(--bg-input);
+  padding: 25px;
+  border-radius: var(--border-radius);
+  border: 1px solid #383e4a;
+  margin-bottom: 30px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-end;
+}
+
+.filter-group {
+  flex: 1;
+}
+
+.filter-group label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-grey);
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+/* Results Info */
+.results-info {
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #383e4a;
+}
+
+.results-info h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-grey);
+}
+
+/* Collaboration List */
+.collaborations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.collab-card {
+  background-color: var(--bg-input);
+  border-radius: var(--border-radius);
+  border: 1px solid #383e4a;
+  padding: 30px;
+  transition: all 0.3s;
+}
+
+.collab-card:hover {
+  border-color: var(--accent-blue);
+  transform: translateX(5px);
+  box-shadow: 0 6px 20px rgba(97, 66, 185, 0.15);
+}
+
+.collab-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 18px;
+  gap: 20px;
+}
+
+.collab-main h3 {
+  font-size: 1.4rem;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.collab-creator {
+  color: var(--text-grey);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+}
+
+.collab-creator i {
+  color: var(--accent-blue);
+}
+
+.status-badge {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.status-badge.open {
+  background-color: rgba(34, 197, 94, 0.2);
+  color: #22c55e;
+}
+
+.status-badge.progress {
+  background-color: rgba(251, 191, 36, 0.2);
+  color: #fbbf24;
+}
+
+.status-badge.closed {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+.collab-description {
+  color: var(--text-grey);
+  line-height: 1.7;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+}
+
+/* Collab Meta */
+.collab-meta {
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: rgba(97, 66, 185, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(97, 66, 185, 0.1);
+}
+
+.required-skills label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-white);
+  margin-bottom: 12px;
+}
+
+.required-skills label i {
+  color: var(--accent-blue);
+}
+
+.skills-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.skill-tag {
+  background-color: rgba(97, 66, 185, 0.3);
+  border: 1px solid rgba(97, 66, 185, 0.5);
+  padding: 6px 14px;
+  border-radius: 15px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.collab-date {
+  color: var(--text-grey);
+  font-size: 0.85rem;
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.collab-date i {
+  color: var(--accent-blue);
+}
+
+/* Collab Actions */
+.collab-actions {
+  display: flex;
+  gap: 12px;
+  padding-top: 15px;
+  border-top: 1px solid #383e4a;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--text-grey);
+}
+
+.empty-icon {
+  font-size: 4.5rem;
+  color: #383e4a;
+  margin-bottom: 25px;
+}
+
+.empty-state h3 {
+  color: var(--text-white);
+  margin: 15px 0;
+  font-size: 1.3rem;
+}
+
+.empty-state p {
+  margin-bottom: 25px;
+  font-size: 1rem;
+}

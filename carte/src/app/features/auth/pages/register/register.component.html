@@ -1,1 +1,76 @@
-<p>register works!</p>
+<div class="page-container">
+  
+  <div class="left-panel">
+    
+    <header class="top-nav">
+      <div class="logo">
+        <span class="blue-dot"></span>TALENTS MAP
+      </div>
+    </header>
+
+    <div class="form-wrapper">
+      <div class="form-header">
+        <span class="sub-title">Welcome to TALENTS MAP</span>
+        <h1>Create new account<span class="blue-dot">.</span></h1>
+        <p class="login-prompt">
+          Already A Member? <a routerLink="/login">Log In</a>
+        </p>
+      </div>
+
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+        
+        <div class="input-row">
+          <div class="input-group">
+            <label>First name</label>
+            <div class="input-field">
+              <input type="text" formControlName="firstName">
+              <i class="fa fa-id-card input-icon"></i>
+            </div>
+          </div>
+          
+          <div class="input-group">
+            <label>Last name</label>
+            <div class="input-field">
+              <input type="text" formControlName="lastName">
+              <i class="fa fa-id-card input-icon"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="input-group full-width">
+          <label>Email</label>
+          <div class="input-field">
+            <input type="email" formControlName="email">
+            <i class="fa fa-envelope input-icon"></i>
+          </div>
+        </div>
+
+        <div class="input-group full-width">
+          <label>Password</label>
+          <div class="input-field active-field">
+            <input [type]="showPassword ? 'text' : 'password'" formControlName="password">
+            <i [class]="showPassword ? 'fa fa-eye-slash' : 'fa fa-eye'" 
+               class="input-icon clickable" 
+               (click)="togglePasswordVisibility()"></i>
+          </div>
+        </div>
+
+        <div *ngIf="errorMessage" class="error-message" style="color: #ff4444; margin: 10px 0; font-size: 0.9rem;">
+          {{ errorMessage }}
+        </div>
+
+        <div class="button-row">
+          
+          <button type="submit" class="btn btn-primary">Create account</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <div class="right-panel">
+    <div class="aw-logo">
+    </div>
+  </div>
+
+</div>

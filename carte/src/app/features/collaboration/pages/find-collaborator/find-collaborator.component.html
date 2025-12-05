@@ -1,0 +1,136 @@
+<div class="page-container">
+  <div class="content-center">
+    <div class="main-panel">
+    <app-navigation></app-navigation>
+
+    <div class="content-wrapper">
+      <div class="header-section">
+        <span class="sub-title">COLLABORATION</span>
+        <h1>Find Collaborators<span class="blue-dot">.</span></h1>
+        <p class="description">Post your needs or join existing collaboration requests</p>
+      </div>
+
+      <!-- Create New Request Button -->
+      <div class="action-bar">
+        <button (click)="toggleForm()" class="btn btn-primary">
+          <i [class]="showForm ? 'fa fa-times' : 'fa fa-plus'"></i>
+          {{ showForm ? 'Cancel' : 'New Collaboration Request' }}
+        </button>
+      </div>
+
+      <!-- Form for New Request -->
+      <div *ngIf="showForm" class="collab-form">
+        <h3>Create Collaboration Request</h3>
+        <div class="form-group">
+          <label>Title</label>
+          <div class="input-field">
+            <input type="text" [(ngModel)]="newRequest.title" placeholder="e.g., Looking for Backend Developer">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea [(ngModel)]="newRequest.description" 
+                    placeholder="Describe what you're looking for..."
+                    class="textarea-field"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Required Skills (comma separated)</label>
+          <div class="input-field">
+            <input type="text" [(ngModel)]="skillsInput" placeholder="e.g., Node.js, React, MongoDB">
+          </div>
+        </div>
+        <div class="form-actions">
+          <button (click)="submitRequest()" class="btn btn-primary" [disabled]="!newRequest.title || !newRequest.description">
+            <i class="fa fa-paper-plane"></i>
+            Submit Request
+          </button>
+        </div>
+      </div>
+
+      <!-- Filter Bar -->
+      <div class="filter-bar">
+        <div class="filter-group">
+          <label>Status</label>
+          <select [(ngModel)]="filterStatus" (change)="applyFilters()" class="filter-select">
+            <option value="">All Status</option>
+            <option value="Open">Open</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Closed">Closed</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <input type="text" 
+                 [(ngModel)]="searchQuery" 
+                 (input)="applyFilters()"
+                 placeholder="Search by skills or title..."
+                 class="search-input">
+        </div>
+      </div>
+
+      <!-- Results Count -->
+      <div class="results-info">
+        <h3>{{ filteredCollaborations.length }} Request{{ filteredCollaborations.length !== 1 ? 's' : '' }} Available</h3>
+      </div>
+
+      <!-- Collaboration Requests List -->
+      <div class="collaborations-list">
+        <div *ngFor="let collab of filteredCollaborations" class="collab-card">
+          <div class="collab-header">
+            <div class="collab-main">
+              <h3>{{ collab.title }}</h3>
+              <p class="collab-creator">
+                <i class="fa fa-user"></i>
+                Posted by {{ collab.creator }}
+              </p>
+            </div>
+            <span class="status-badge" 
+                  [class.open]="collab.status === 'Open'"
+                  [class.progress]="collab.status === 'In Progress'"
+                  [class.closed]="collab.status === 'Closed'">
+              {{ collab.status }}
+            </span>
+          </div>
+
+          <p class="collab-description">{{ collab.description }}</p>
+
+          <div class="collab-meta">
+            <div class="required-skills">
+              <label><i class="fa fa-star"></i> Required Skills:</label>
+              <div class="skills-tags">
+                <span *ngFor="let skill of collab.requiredSkills" class="skill-tag">
+                  {{ skill }}
+                </span>
+              </div>
+            </div>
+            <div class="collab-date">
+              <i class="fa fa-calendar"></i>
+              {{ collab.createdAt | date:'mediumDate' }}
+            </div>
+          </div>
+
+          <div class="collab-actions">
+            <button *ngIf="collab.status === 'Open'" class="btn btn-primary btn-sm">
+              <i class="fa fa-handshake"></i>
+              Apply to Collaborate
+            </button>
+            <button class="btn btn-secondary btn-sm">
+              <i class="fa fa-envelope"></i>
+              Contact
+            </button>
+          </div>
+        </div>
+
+        <!-- Empty State -->
+        <div *ngIf="filteredCollaborations.length === 0" class="empty-state">
+          <i class="fa fa-handshake empty-icon"></i>
+          <h3>No collaboration requests found</h3>
+          <p>Be the first to create a collaboration request!</p>
+          <button (click)="showForm = true" class="btn btn-primary">
+            <i class="fa fa-plus"></i>
+            Create Request
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

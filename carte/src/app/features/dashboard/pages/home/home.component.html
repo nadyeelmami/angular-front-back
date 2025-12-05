@@ -1,0 +1,157 @@
+<div class="page-container">
+  <div class="content-center">
+    <div class="main-panel">
+    <header class="top-nav">
+      <div class="logo"><span class="blue-dot"></span> TALENTS MAP</div>
+      <nav class="nav-links">
+        <a routerLink="/dashboard" class="nav-link active">Dashboard</a>
+        <a routerLink="/search" class="nav-link">Search</a>
+        <a routerLink="/map" class="nav-link">Talents </a>
+        <a routerLink="/collaboration" class="nav-link">Collaborate</a>
+        <a routerLink="/profile" class="nav-link">Profile</a>
+        <a *ngIf="isAdmin" routerLink="/admin/badges" class="nav-link">Admin</a>
+      </nav>
+      <button (click)="logout()" class="btn-logout">
+        <i class="fa fa-sign-out"></i>
+      </button>
+    </header>
+
+    <div class="dashboard-content">
+      <div class="welcome-section">
+        <span class="sub-title">TALENTS MAP PLATFORM</span>
+        <h1>Welcome Back!<span class="blue-dot">.</span></h1>
+        <p class="description">Explore talents, find collaborators</p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fa fa-users"></i>
+          </div>
+          <div class="stat-content">
+            <h3>{{ totalTalents }}</h3>
+            <p>Total Talents</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon verified">
+            <i class="fa fa-check-circle"></i>
+          </div>
+          <div class="stat-content">
+            <h3>{{ verifiedTalents }}</h3>
+            <p>Verified Talents</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon collab">
+            <i class="fa fa-handshake"></i>
+          </div>
+          <div class="stat-content">
+            <h3>{{ openCollaborations }}</h3>
+            <p>Open Requests</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon skills">
+            <i class="fa fa-star"></i>
+          </div>
+          <div class="stat-content">
+            <h3>{{ totalSkills }}</h3>
+            <p>Unique Skills</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="quick-actions">
+        <h2>Quick Actions<span class="blue-dot">.</span></h2>
+        <div class="action-grid">
+          <a routerLink="/search" class="action-card">
+            <i class="fa fa-search"></i>
+            <h3>Search Talents</h3>
+            <p>Find talents by skills, interests or location</p>
+          </a>
+
+          <a routerLink="/map" class="action-card">
+            <i class="fa fa-map-marked-alt"></i>
+            <h3>View Map</h3>
+            <p>Explore the interactive talents map</p>
+          </a>
+
+          <a routerLink="/collaboration" class="action-card">
+            <i class="fa fa-users"></i>
+            <h3>Find Collaborators</h3>
+            <p>Post or join collaboration requests</p>
+          </a>
+
+          <a routerLink="/profile" class="action-card">
+            <i class="fa fa-user-edit"></i>
+            <h3>Edit Profile</h3>
+            <p>Update your skills and information</p>
+          </a>
+        </div>
+      </div>
+
+      <div class="recent-section">
+        <div class="section-header">
+          <h2>Recent Verified Talents<span class="blue-dot">.</span></h2>
+          <a routerLink="/search" class="view-all">View All →</a>
+        </div>
+        <div class="talents-grid">
+          <div *ngFor="let talent of recentTalents" class="talent-card">
+            <div class="talent-header">
+              <div class="talent-avatar">
+                {{ talent.firstName.charAt(0) }}{{ talent.lastName.charAt(0) }}
+              </div>
+              <div class="talent-info">
+                <h3>{{ talent.firstName }} {{ talent.lastName }}</h3>
+                <p>{{ talent.title }}</p>
+              </div>
+              <span *ngIf="talent.isVerified" class="verified-mini">
+                <i class="fa fa-check-circle"></i>
+              </span>
+            </div>
+            <div class="talent-skills">
+              <span *ngFor="let skill of talent.skills.slice(0, 3)" class="skill-tag">
+                {{ skill.name }}
+              </span>
+              <span *ngIf="talent.skills.length > 3" class="skill-tag more">
+                +{{ talent.skills.length - 3 }}
+              </span>
+            </div>
+            <a [routerLink]="['/profile', talent.id]" class="view-profile">View Profile →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="recent-section">
+        <div class="section-header">
+          <h2>Latest Collaborations<span class="blue-dot">.</span></h2>
+          <a routerLink="/collaboration" class="view-all">View All →</a>
+        </div>
+        <div class="collab-list">
+          <div *ngFor="let collab of recentCollaborations" class="collab-card">
+            <div class="collab-header">
+              <h3>{{ collab.title }}</h3>
+              <span class="status-badge" [class.open]="collab.status === 'Open'">
+                {{ collab.status }}
+              </span>
+            </div>
+            <p class="collab-desc">{{ collab.description }}</p>
+            <div class="collab-footer">
+              <div class="collab-skills">
+                <span *ngFor="let skill of collab.requiredSkills.slice(0, 3)" class="req-skill">
+                  {{ skill }}
+                </span>
+              </div>
+              <span class="collab-creator">by {{ collab.creator }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>

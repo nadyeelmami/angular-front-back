@@ -1,0 +1,115 @@
+<div class="page-container">
+  <div class="content-center">
+    <div class="main-panel">
+    <app-navigation></app-navigation>
+
+    <div class="content-wrapper">
+      <div class="header-section">
+        <span class="sub-title">VISUALIZATION</span>
+        <h1>TALENTS MAP<span class="blue-dot">.</span></h1>
+        <br>
+      </div>
+
+      <!-- View Toggle -->
+      <div class="view-selector">
+        <button 
+          [class.active]="viewType === 'map'"
+          (click)="viewType = 'map'"
+          class="view-btn">
+          <i class="fa fa-map-marked-alt"></i>
+          Location Map
+        </button>
+        <button 
+          [class.active]="viewType === 'network'"
+          (click)="viewType = 'network'"
+          class="view-btn">
+          <i class="fa fa-project-diagram"></i>
+          Network
+        </button>
+      </div>
+
+      <!-- Location Map View -->
+      <div *ngIf="viewType === 'map'" class="visualization-container">
+        <div class="location-map">
+          <div *ngFor="let location of locations" class="location-card">
+            <div class="location-header">
+              <i class="fa fa-map-marker-alt"></i>
+              <h3>{{ location.city }}</h3>
+            </div>
+            <p class="location-count">{{ location.count }} Talent{{ location.count > 1 ? 's' : '' }}</p>
+            <div class="location-talents">
+              <div *ngFor="let talent of location.talents" class="mini-talent">
+                <div class="mini-avatar">
+                  {{ talent.firstName.charAt(0) }}{{ talent.lastName.charAt(0) }}
+                </div>
+                <span>{{ talent.firstName }} {{ talent.lastName }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Network View -->
+      <div *ngIf="viewType === 'network'" class="visualization-container">
+        <div class="network-view">
+          <div class="network-info">
+            <i class="fa fa-info-circle"></i>
+            <p>Interactive network visualization showing connections between talents based on shared skills and interests.</p>
+          </div>
+          <div class="network-grid">
+            <div *ngFor="let talent of allTalents" class="network-node">
+              <div class="node-avatar">
+                {{ talent.firstName.charAt(0) }}{{ talent.lastName.charAt(0) }}
+              </div>
+              <p class="node-name">{{ talent.firstName }} {{ talent.lastName }}</p>
+              <p class="node-skills">{{ talent.skills.length }} skills</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Statistics -->
+      <div class="stats-section">
+        <h2>Global Statistics<span class="blue-dot">.</span></h2>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <i class="fa fa-users"></i>
+            <h3>{{ stats.totalTalents }}</h3>
+            <p>Total Talents</p>
+          </div>
+          <div class="stat-card">
+            <i class="fa fa-star"></i>
+            <h3>{{ stats.totalSkills }}</h3>
+            <p>Unique Skills</p>
+          </div>
+          <div class="stat-card">
+            <i class="fa fa-map-pin"></i>
+            <h3>{{ stats.totalLocations }}</h3>
+            <p>Locations</p>
+          </div>
+          <div class="stat-card">
+            <i class="fa fa-language"></i>
+            <h3>{{ stats.totalLanguages }}</h3>
+            <p>Languages</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top Skills -->
+      <div class="top-skills-section">
+        <h2>Top Skills<span class="blue-dot">.</span></h2>
+        <div class="skills-list">
+          <div *ngFor="let skill of topSkills" class="skill-bar">
+            <div class="skill-info">
+              <span class="skill-name">{{ skill.name }}</span>
+              <span class="skill-percentage">{{ skill.count }} talents</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" [style.width.%]="skill.percentage"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

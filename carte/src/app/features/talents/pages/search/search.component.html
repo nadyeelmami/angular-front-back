@@ -1,0 +1,156 @@
+<div class="page-container">
+  <div class="content-center">
+    <div class="main-panel">
+    <app-navigation></app-navigation>
+
+    <div class="content-wrapper">
+      <div class="header-section">
+        <span class="sub-title">FIND TALENTS</span>
+        <h1>Search Talents<span class="blue-dot">.</span></h1>
+
+      </div>
+
+      <!-- Search & Filters -->
+      <div class="search-section">
+        <div class="search-bar">
+          <i class="fa fa-search search-icon"></i>
+          <input 
+            type="text" 
+            [(ngModel)]="searchQuery" 
+            (input)="onSearch()"
+            placeholder="Search by name, skills, interests..."
+            class="search-input"
+          >
+        </div>
+
+        <div class="filters-row">
+          <div class="filter-group">
+            <label>Status</label>
+            <select [(ngModel)]="filterVerified" (change)="onSearch()" class="filter-select">
+              <option [ngValue]="undefined">All Talents</option>
+              <option [ngValue]="true">Verified Only</option>
+              <option [ngValue]="false">Not Verified</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label>Availability</label>
+            <select [(ngModel)]="filterAvailability" (change)="onSearch()" class="filter-select">
+              <option value="">All</option>
+              <option value="Available">Available</option>
+              <option value="Busy">Busy</option>
+              <option value="Not Available">Not Available</option>
+            </select>
+          </div>
+
+          <div class="filter-group skills-filter">
+            <label>Filter by Skill</label>
+            <input 
+              type="text" 
+              [(ngModel)]="skillFilter" 
+              (input)="onSearch()"
+              placeholder="e.g., Angular, Python..."
+              class="filter-input"
+            >
+          </div>
+
+          <button (click)="resetFilters()" class="btn-reset">
+            <i class="fa fa-redo"></i>
+            Reset
+          </button>
+        </div>
+      </div>
+
+      <!-- Results Count -->
+      <div class="results-header">
+        <h3>{{ filteredTalents.length }} Talent{{ filteredTalents.length !== 1 ? 's' : '' }} Found</h3>
+        <div class="view-toggle">
+          <button 
+            [class.active]="viewMode === 'grid'"
+            (click)="viewMode = 'grid'"
+            class="toggle-btn"
+          >
+            <i class="fa fa-th"></i>
+          </button>
+          <button 
+            [class.active]="viewMode === 'list'"
+            (click)="viewMode = 'list'"
+            class="toggle-btn"
+          >
+            <i class="fa fa-list"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Results Grid/List -->
+      <div *ngIf="filteredTalents.length > 0" [class]="viewMode === 'grid' ? 'talents-grid' : 'talents-list'">
+        <div *ngFor="let talent of filteredTalents" class="talent-card">
+          <div class="talent-header">
+            <div class="talent-avatar">
+              {{ talent.firstName.charAt(0) }}{{ talent.lastName.charAt(0) }}
+            </div>
+            <div class="talent-info">
+              <h3>
+                {{ talent.firstName }} {{ talent.lastName }}
+                <span *ngIf="talent.isVerified" class="verified-badge">
+                  <i class="fa fa-check-circle"></i>
+                </span>
+              </h3>
+              <p class="talent-title">{{ talent.title }}</p>
+              <p *ngIf="talent.location" class="talent-location">
+                <i class="fa fa-map-marker-alt"></i>
+                {{ talent.location }}
+              </p>
+            </div>
+            <span *ngIf="talent.availability" 
+                  class="availability-badge"
+                  [class.available]="talent.availability === 'Available'"
+                  [class.busy]="talent.availability === 'Busy'">
+              {{ talent.availability }}
+            </span>
+          </div>
+
+          <p class="talent-bio">{{ talent.bio }}</p>
+
+          <div class="talent-skills">
+            <span *ngFor="let skill of talent.skills.slice(0, 4)" class="skill-tag">
+              {{ skill.name }}
+            </span>
+            <span *ngIf="talent.skills.length > 4" class="skill-tag more">
+              +{{ talent.skills.length - 4 }}
+            </span>
+          </div>
+
+          <div class="talent-footer">
+            <div class="talent-stats">
+              <span class="stat-item">
+                <i class="fa fa-star"></i>
+                {{ talent.skills.length }} skills
+              </span>
+              <span class="stat-item">
+                <i class="fa fa-language"></i>
+                {{ talent.languages.length }} languages
+              </span>
+              <span class="stat-item">
+                <i class="fa fa-project-diagram"></i>
+                {{ talent.projects.length }} projects
+              </span>
+            </div>
+            <button class="btn-view">View Profile</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="filteredTalents.length === 0" class="empty-state">
+        <i class="fa fa-search empty-icon"></i>
+        <h3>No talents found</h3>
+        <p>Try adjusting your search or filters</p>
+        <button (click)="resetFilters()" class="btn btn-primary">
+          Reset Filters
+        </button>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>

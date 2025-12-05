@@ -1,1 +1,73 @@
-<p>login works!</p>
+<div class="page-container">
+  <div class="left-panel">
+    <header class="top-nav">
+      <div class="logo"><span class="blue-dot"></span> TALENTS MAP</div>
+    </header>
+
+    <div class="form-wrapper">
+      <div class="form-header">
+        <span class="sub-title">Welcome to TALENTS MAP</span>
+        <h1>WELCOME BACK!<span class="blue-dot">.</span></h1>
+        <p class="login-prompt">
+          new here? <a routerLink="/signup">sign up</a>
+        </p>
+      </div>
+
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+
+        <!-- Username -->
+        <div class="input-group full-width">
+          <label>Username</label>
+          <div class="input-field">
+            <input type="text" formControlName="username">
+            <i class="fa fa-id-card input-icon"></i>
+          </div>
+          <div *ngIf="signupForm.get('username')?.invalid && signupForm.get('username')?.touched" class="error-message">
+            Username est requis
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="input-group full-width">
+          <label>Email</label>
+          <div class="input-field">
+            <input type="email" formControlName="email">
+            <i class="fa fa-envelope input-icon"></i>
+          </div>
+          <div *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched" class="error-message">
+            Email invalide
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="input-group full-width">
+          <label>Password</label>
+          <div class="input-field active-field">
+            <input [type]="showPassword ? 'text' : 'password'" formControlName="password">
+            <i [class]="showPassword ? 'fa fa-eye-slash' : 'fa fa-eye'"
+               class="input-icon clickable"
+               (click)="togglePasswordVisibility()"></i>
+          </div>
+          <div *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched" class="error-message">
+            Mot de passe invalide (min 6 caractères)
+          </div>
+        </div>
+
+        <!-- Erreur globale -->
+        <div *ngIf="errorMessage" class="error-message" style="color: red; margin: 10px 0; font-size: 0.9rem;">
+          {{ errorMessage }}
+        </div>
+
+        <!-- Bouton -->
+        <div class="button-row">
+          <button type="submit" class="btn btn-primary">Log in</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <div class="right-panel">
+    <div class="aw-logo"></div>
+  </div>
+</div>

@@ -1,0 +1,295 @@
+<div class="page-container">
+  <div class="content-center">
+    <div class="main-panel">
+    <header class="top-nav">
+      <div class="logo"><span class="blue-dot"></span> TALENTS </div>
+      <nav class="nav-links">
+        <a routerLink="/dashboard" class="nav-link">Dashboard</a>
+        <a routerLink="/profile" class="nav-link active">Profile</a>
+      </nav>
+    </header>
+
+    <div class="profile-content">
+        
+      <!-- Section Identité -->
+      <div class="section-wrapper">
+    
+        <div class="identity-card">
+          <div class="avatar-container">
+            <div class="avatar">
+              <span class="avatar-text">{{ userProfile.firstName.charAt(0) }}{{ userProfile.lastName.charAt(0) }}</span>
+            </div>
+            <div *ngIf="userProfile.isVerified" class="verified-badge">
+              <i class="fa fa-check-circle"></i>
+              Verified
+            </div>
+          </div>
+          
+          <h1>{{ userProfile.firstName }} {{ userProfile.lastName }}<span class="blue-dot">.</span></h1>
+          <div class="input-group full-width">
+            <label>Title</label>
+            <div class="input-field">
+              <input type="text" [(ngModel)]="userProfile.title" placeholder="Your title (e.g., Student at CESI)">
+              <i class="fa fa-briefcase input-icon"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <h3 class="section-title">
+            <i class="fa fa-user section-icon"></i>
+            Personal Information
+          </h3>
+          
+          <div class="input-row">
+            <div class="input-group">
+              <label>First Name</label>
+              <div class="input-field">
+                <input type="text" [(ngModel)]="userProfile.firstName">
+              </div>
+            </div>
+            <div class="input-group">
+              <label>Last Name</label>
+              <div class="input-field">
+                <input type="text" [(ngModel)]="userProfile.lastName">
+              </div>
+            </div>
+          </div>
+
+          <div class="input-group full-width">
+            <label>Email</label>
+            <div class="input-field">
+              <input type="email" [(ngModel)]="userProfile.email">
+              <i class="fa fa-envelope input-icon"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <h3 class="section-title">
+            <i class="fa fa-link section-icon"></i>
+            Links & Portfolio
+          </h3>
+          
+          <div class="links-list">
+            <div *ngFor="let link of userProfile.externalLinks; let i = index" class="link-item">
+              <a [href]="link.url" target="_blank" class="link-text">
+                <i class="fa fa-globe"></i>
+                {{ link.label }}
+              </a>
+              <button (click)="removeLink(i)" class="link-remove">
+                <i class="fa fa-times"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="add-link-form">
+            <div class="input-group">
+              <div class="input-field">
+                <input type="text" placeholder="Label" [(ngModel)]="newLinkLabel">
+              </div>
+            </div>
+            <div class="input-group" style="flex: 2;">
+              <div class="input-field">
+                <input type="text" placeholder="URL" [(ngModel)]="newLinkUrl">
+              </div>
+            </div>
+            <button (click)="addLink()" class="btn btn-primary btn-sm">
+              <i class="fa fa-plus"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section About & Skills -->
+      <div class="section-wrapper">
+        <div class="section-card">
+          <div class="section-header">
+            <h3 class="section-title">
+              <i class="fa fa-edit section-icon"></i>
+              About
+            </h3>
+            <button 
+              (click)="generateBio()"
+              [disabled]="isAiLoading"
+              class="btn btn-secondary btn-sm"
+            >
+              <i [class]="isAiLoading ? 'fa fa-spinner fa-spin' : 'fa fa-magic'"></i>
+              {{ isAiLoading ? 'Generating...' : 'AI Generate' }}
+            </button>
+          </div>
+          <textarea 
+            [(ngModel)]="userProfile.bio"
+            class="bio-textarea"
+            placeholder="Describe your journey, your ambitions for the challenge..."
+          ></textarea>
+        </div>
+
+        <div class="section-card-group">
+          <div class="section-card half-width">
+            <h3 class="section-title">
+              <i class="fa fa-star section-icon"></i>
+              Skills
+            </h3>
+            
+            <div class="add-skill-form">
+              <div class="input-group full-width">
+                <div class="input-field">
+                  <input [(ngModel)]="newSkillName" placeholder="Skill..." type="text">
+                </div>
+              </div>
+              <div class="input-row">
+                <div class="input-group">
+                  <select [(ngModel)]="newSkillCat" class="select-field">
+                    <option *ngFor="let c of skillCategories" [value]="c">{{c}}</option>
+                  </select>
+                </div>
+                <div class="input-group">
+                  <select [(ngModel)]="newSkillLevel" class="select-field">
+                    <option *ngFor="let l of skillLevels" [value]="l">{{l}}</option>
+                  </select>
+                </div>
+                <button (click)="addSkill()" class="btn btn-primary btn-sm">
+                  <i class="fa fa-plus"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="tags-container">
+              <span *ngFor="let skill of userProfile.skills; let i = index" class="tag">
+                <span class="tag-name">{{ skill.name }}</span>
+                <span class="tag-level">({{ skill.level }})</span>
+                <button (click)="removeSkill(i)" class="tag-remove">
+                  <i class="fa fa-times"></i>
+                </button>
+              </span>
+            </div>
+          </div>
+
+          <div class="section-card-stack half-width">
+            <div class="section-card compact">
+              <h3 class="section-title">
+                <i class="fa fa-language section-icon"></i>
+                Languages
+              </h3>
+              <div class="add-item-form">
+                <div class="input-group">
+                  <div class="input-field">
+                    <input [(ngModel)]="newLangName" placeholder="Language..." type="text">
+                  </div>
+                </div>
+                <select [(ngModel)]="newLangLevel" class="select-field select-sm">
+                  <option *ngFor="let l of languageLevels" [value]="l">{{l}}</option>
+                </select>
+                <button (click)="addLanguage()" class="btn btn-primary btn-sm">
+                  <i class="fa fa-plus"></i>
+                </button>
+              </div>
+              <ul class="list-items">
+                <li *ngFor="let lang of userProfile.languages; let i = index" class="list-item">
+                  <span class="list-item-text">{{ lang.name }} <span class="list-item-badge">{{ lang.level }}</span></span>
+                  <button (click)="removeLanguage(i)" class="list-item-remove">
+                    <i class="fa fa-times"></i>
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+            <div class="section-card compact">
+              <h3 class="section-title">
+                <i class="fa fa-heart section-icon"></i>
+                Interests
+              </h3>
+              <div class="add-item-form">
+                <div class="input-group" style="flex: 1;">
+                  <div class="input-field">
+                    <input [(ngModel)]="newInterest" placeholder="Add an interest..." type="text">
+                  </div>
+                </div>
+                <button (click)="addInterest()" class="btn btn-primary btn-sm">
+                  <i class="fa fa-plus"></i>
+                </button>
+              </div>
+              <div class="tags-container">
+                <span *ngFor="let int of userProfile.interests; let i = index" class="tag tag-interest">
+                  {{ int }}
+                  <button (click)="removeInterest(i)" class="tag-remove">
+                    <i class="fa fa-times"></i>
+                  </button>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section Projects -->
+      <div class="section-wrapper">
+        <div class="section-card">
+          <div class="section-header">
+            <h3 class="section-title">
+              <i class="fa fa-briefcase section-icon"></i>
+              Projects
+            </h3>
+            <button (click)="toggleProjectForm()" class="btn btn-secondary btn-sm">
+              <i [class]="showProjectForm ? 'fa fa-times' : 'fa fa-plus'"></i>
+              {{ showProjectForm ? 'Cancel' : 'Add Project' }}
+            </button>
+          </div>
+
+          <div *ngIf="showProjectForm" class="project-form">
+            <div class="input-group full-width">
+              <label>Project Title</label>
+              <div class="input-field">
+                <input [(ngModel)]="tempProject.title" placeholder="Project title" type="text">
+              </div>
+            </div>
+            <div class="input-row">
+              <div class="input-group">
+                <label>Your Role</label>
+                <div class="input-field">
+                  <input [(ngModel)]="tempProject.role" placeholder="e.g., Lead Dev" type="text">
+                </div>
+              </div>
+              <div class="input-group">
+                <label>Link (optional)</label>
+                <div class="input-field">
+                  <input [(ngModel)]="tempProject.link" placeholder="https://..." type="text">
+                </div>
+              </div>
+            </div>
+            <div class="input-group full-width">
+              <label>Description</label>
+              <textarea [(ngModel)]="tempProject.description" placeholder="Short description..." class="textarea-field"></textarea>
+            </div>
+            <div class="form-actions">
+              <button (click)="saveProject()" class="btn btn-primary">
+                <i class="fa fa-save"></i>
+                Save Project
+              </button>
+            </div>
+          </div>
+
+          <div class="projects-grid">
+            <div *ngFor="let proj of userProfile.projects" class="project-card">
+              <button (click)="removeProject(proj.id)" class="project-remove">
+                <i class="fa fa-times"></i>
+              </button>
+              <h4 class="project-title">{{ proj.title }}</h4>
+              <p class="project-role">{{ proj.role }}</p>
+              <p class="project-description">{{ proj.description }}</p>
+              <a *ngIf="proj.link" [href]="proj.link" target="_blank" class="project-link">
+                <i class="fa fa-external-link"></i>
+                View Project
+              </a>
+            </div>
+            <div *ngIf="userProfile.projects.length === 0 && !showProjectForm" class="empty-state">
+              No projects added yet.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
