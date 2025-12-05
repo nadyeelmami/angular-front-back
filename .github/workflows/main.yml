@@ -37,5 +37,5 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: /angular-front-back/
+          local-dir: dist/carte/
           server-dir: /public_html/Talents_Map/
